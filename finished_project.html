@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>Your First JavaScript Project</title>
+</head>
+<script type="text/javascript">
+/*Add your application code here*/
+var DATA = {    
+    name: 'John Smith',
+    imgURL: 'http://lorempixel.com/100/100/',
+    hobbyList: ['coding', 'writing', 'skiing']
+};
+
+var App = {
+    main: (function () {
+        window.addEventListener('load', function () {
+            var profile = new App.View.Profile(DATA);
+            profile.render(document.body);
+        });
+    })()
+};
+
+App.View = (function () { //the View 'class' library component
+    var _library = {
+            Profile: function (model) {
+                         var _private = {
+                                 div: document.createElement('div'),
+                                 heading: document.createElement('h3'),
+                                 img: document.createElement('img'),
+                                 hobbies: new App.View.Hobbies(model.hobbyList)
+                             },
+                             _public = {
+                                 render: function (container) {
+                                             _private.heading.appendChild(document.createTextNode(model.name));
+                                             _private.img.setAttribute('src', model.imgURL);
+                                             _private.hobbies.render(_private.div);
+                                             container.appendChild(_private.div);
+                                         }
+                             };
+                         _private.div.appendChild(_private.heading);
+                         _private.div.appendChild(_private.img);
+                         _private.div.appendChild(_private.hobbies.element);
+                         return _public;
+                     },
+            Hobbies: function (model) {
+                         var _private = {
+                                 div: document.createElement('div'),
+                                 heading: document.createElement('h5'),
+                                 list: document.createElement('ul')
+                             },
+                             _public = {
+                                 element: _private.div,
+                                 render: function (container) {
+                                             model.map(function (hobby) {
+                                                 var li = document.createElement('li');
+                                                 li.appendChild(document.createTextNode(hobby));
+                                                 _private.list.appendChild(li);
+                                             });
+                                             _private.div.appendChild(_private.list);
+                                             container.appendChild(_private.div);
+                                         }
+                             };
+                         _private.heading.appendChild(document.createTextNode('My hobbies:'));
+                         _private.div.appendChild(_private.heading);
+                         return _public;
+                     }
+        };
+    return _library;
+})();
+</script>
+<body>
+</body>
+</html>
