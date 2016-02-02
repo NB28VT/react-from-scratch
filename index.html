@@ -6,31 +6,101 @@
 </head>
 <script type="text/javascript">
 /*Add your application code here*/
+// var App = object
 var App = {
-    main: (function () {
-        window.addEventListener('load', function () {
+    // main is a function property of App
+    main: function(){
+        // window is the global JavaScript object root. Add event listener is attached to it as the target.
+        // The event it is listening for is 'load' which is an event in JS that is waiting for the window to load 
+        window.addEventListener('load', function(){
+            // Once the window loads, call render on the Hello view by walking down. The element we're walking down to is the document.body
             App.View.Hello.render(document.body);
         });
-    })()
+        // Again, the immediately invoked function expression runs main
+    }()
 };
 
-App.View = (function () { //the View component - a 'class library' of views
+
+// Creates a view object as a component on View. This will house all of the views in our app
+App.View = function() {
+    // Underscore indicates a private variable but it's meaningless. It's just a convention. Library is a property of view
     var _library = {
-        Hello: (function () {
+        // Hello is an object in _library. The private and public design pattern is called the "Definitive Module Pattern"
+        Hello: (function(){
+            // private is a property of Hello?
+
             var _private = {
-                    div: document.createElement('div')
-                },
-                _public = {
-                    render: function (container) {
-                        _private.div.appendChild(document.createTextNode('Hello World'));
-                        container.appendChild(_private.div);
-                    }
-                };
+                // div is a property of _private? It creates a div in the document (global variable for current html window)
+                div: document.createElement("div")
+            };
+            // public is a property of Hello?
+            var _public = {
+                // render is a property of the oublic variable. It's a function with arugment container
+                // containter will be an element of the DOM that will contain the output of this view
+                render: function(container) {
+                    // This function calls the "private" variable within this object? It's calling the div that's created
+                    // ...and it's appending a child element to the html, which is a textNode?
+                    _private.div.appendChild(document.createTextNode("Derp! WOOOO HOOOOO"));
+                    // Now that we've added the Derp node, append the dynamically generated private div to 
+                    // .whichever element on the page we are passing to render 
+                    container.appendChild(_private.div);
+                }
+            };
+
             return _public;
+        // V: wtf? IMMEDIATELY INVOKED FUNCTION EXPRESSION. Meaning it calls the function above right away 
+        // .... in this case, with no arguments..
         })()
     };
-    return _library;
-})(); 
+
+    return _library
+
+// IMMEDIATELY INVOKED FUNCTION EXPRESSION. Meaning it calls the function above right away 
+        // .... in this case, with no arguments..
+}();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var App = {
+//     main: (function () {
+//         window.addEventListener('load', function () {
+//             App.View.Hello.render(document.body);
+//         });
+//     })()
+// };
+
+// App.View = (function () { //the View component - a 'class library' of views
+//     var _library = {
+//         Hello: (function () {
+//             var _private = {
+//                     div: document.createElement('div')
+//                 },
+//                 _public = {
+//                     render: function (container) {
+//                         _private.div.appendChild(document.createTextNode('Hello World'));
+//                         container.appendChild(_private.div);
+//                     }
+//                 };
+//             return _public;
+//         })()
+//     };
+//     return _library;
+// })(); 
 </script>
 </html>
 
